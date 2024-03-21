@@ -12,8 +12,8 @@ end)
 
 AddEventHandler('tizid:redeemlicense', function()
 	local drivers = lib.callback.await("tizid:haslicense", false, 'drive')
-	local weapon = lib.callback.await("tizid:haslicense", false, 'weapon')
-	local medic = lib.callback.await("tizid:haslicense", false, 'medic')
+	local weapon = lib.callback.await("tizid:haslicense", false, Config.LicenseName.weapon)
+	local medic = lib.callback.await("tizid:haslicense", false, Config.LicenseName.medic)
 	lib.registerContext({
 		id = 'redeem',
 		title = Config.Language.idtitle,
@@ -41,7 +41,7 @@ AddEventHandler('tizid:redeemlicense', function()
 			disabled = weapon,
 			icon = 'vcard',
 			onSelect = function(data, menu)
-				TriggerServerEvent("tizid:redeemlicenses", "weapon")
+				TriggerServerEvent("tizid:redeemlicenses", Config.LicenseName.weapon)
 			end,
 		  },
 		  {
@@ -50,7 +50,7 @@ AddEventHandler('tizid:redeemlicense', function()
 			disabled = medic,
 			icon = 'vcard',
 			onSelect = function(data, menu)
-				TriggerServerEvent("tizid:redeemlicenses", "medic")
+				TriggerServerEvent("tizid:redeemlicenses", Config.LicenseName.medic)
 			end,
 		  },
 		}
@@ -343,7 +343,7 @@ Citizen.CreateThread(function()
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'weapon', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseName.weapon, mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -362,7 +362,7 @@ Citizen.CreateThread(function()
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'weapon', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseName.weapon, mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -387,7 +387,7 @@ Citizen.CreateThread(function()
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'medic', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseName.medic, mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -406,7 +406,7 @@ Citizen.CreateThread(function()
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'medic', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseName.medic, mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -427,9 +427,9 @@ AddEventHandler('tizid:openitem', function(type)
 		lib.showContext('normal')
 	elseif type == "drive" then
 		lib.showContext('drive')
-	elseif type == "weapon" then
+	elseif type == Config.LicenseName.weapon then
 		lib.showContext('weapon')
-	elseif type == "medic" then
+	elseif type == Config.LicenseName.medic then
 		lib.showContext('medic')
 	end
 end)
@@ -565,7 +565,7 @@ lib.registerContext({
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'weapon', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseName.weapon, mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -584,7 +584,7 @@ lib.registerContext({
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'weapon', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseName.weapon, mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -603,7 +603,7 @@ lib.registerContext({
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'medic', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseName.medic, mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -622,7 +622,7 @@ lib.registerContext({
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'medic', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseName.medic, mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,

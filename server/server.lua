@@ -105,12 +105,9 @@ AddEventHandler('tizid:redeemlicenses', function(type)
             }
             exports.ox_inventory:AddItem(_source, Config.ItemNames.id, 1, metadata)
         end)
-    elseif type == 'drivers' then
+    elseif type == 'drive' then
         MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
         function (user)
-            local category = MySQL.prepare.await('SELECT type FROM user_licenses WHERE `id` = ? AND type = ?', {
-                identifier, type
-            })
             local metadata = {
                 type = 'ID',
                 description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
@@ -118,12 +115,12 @@ AddEventHandler('tizid:redeemlicenses', function(type)
                 user[2],
                 user[3], 
                 user[4], 
-                category, 
+                'B', 
                 user[5])
             }
             exports.ox_inventory:AddItem(_source, Config.ItemNames.drivers, 1, metadata)
         end)
-    elseif type == 'medic' then
+    elseif type == Config.LicenseName.medic then
         MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
         function (user)
             local metadata = {
@@ -137,7 +134,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
             }
             exports.ox_inventory:AddItem(_source, Config.ItemNames.medic, 1, metadata)
         end)
-    elseif type == 'weapon' then
+    elseif type == Config.LicenseName.weapon then
         MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
         function (user)
             local metadata = {
@@ -171,12 +168,12 @@ AddEventHandler('tizid:openserver', function(ID, targetID, type, mugshotass)
 							if licenses[i].type == 'drive' or licenses[i].type == 'drive_bike' or licenses[i].type == 'drive_truck' then
 								show = true
 							end
-						elseif type =='weapon' then
-							if licenses[i].type == 'weapon' then
+						elseif type == Config.LicenseName.weapon then
+							if licenses[i].type == Config.LicenseName.weapon then
 								show = true
 							end
-						elseif type =='medic' then
-							if licenses[i].type == 'mediku_pazyma' then
+						elseif type == Config.LicenseName.medic then
+							if licenses[i].type == Config.LicenseName.medic then
 								show = true
 							end
 						end
@@ -246,12 +243,12 @@ Citizen.CreateThread(function()
         end
         if (Config.ItemNames.medic ~= false) then
             ESX.RegisterUsableItem(Config.ItemNames.medic, function(source)
-                TriggerClientEvent('tizid:openitem', source, 'medic')
+                TriggerClientEvent('tizid:openitem', source, Config.LicenseName.medic)
             end)
         end
         if (Config.ItemNames.weapon ~= false) then
             ESX.RegisterUsableItem(Config.ItemNames.weapon, function(source)
-                TriggerClientEvent('tizid:openitem', source, 'weapon')
+                TriggerClientEvent('tizid:openitem', source, Config.LicenseName.weapon)
             end)
         end
     end
