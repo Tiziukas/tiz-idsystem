@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  // LUA listener
   window.addEventListener('message', function( event ) {
     if (event.data.action == 'open') {
       var type        = event.data.type;
@@ -7,6 +6,8 @@ $(document).ready(function(){
       var licenseData = event.data.array['licenses'];
       var sex         = userData.sex;
       var mugshot = event.data.mugshot;
+      var medicl = event.data.medicl;
+      var weaponl = event.data.weaponl;
 
       if ( type == 'driver' || type == null) {
         $('img').show();
@@ -48,7 +49,7 @@ $(document).ready(function(){
         } else {
           $('#id-card').css('background', 'url(assets/images/idcard.png)');
         }
-      } else if ( type == 'weapon' ) {
+      } else if ( type == weaponl ) {
         $('img').hide();
         $('#name').css('color', '#d9d9d9');
         $('#name').text(userData.firstname + ' ' + userData.lastname);
@@ -57,7 +58,7 @@ $(document).ready(function(){
 
         $('#id-card').css('background', 'url(assets/images/firearm.png)');
         
-      } else if ( type == 'medic' ) {
+      } else if ( type == medicl ) {
         $('img').hide();
         $('#name').css('color', '#d9d9d9');
         $('#name').text(userData.firstname + ' ' + userData.lastname);

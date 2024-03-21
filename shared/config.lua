@@ -28,6 +28,10 @@ Config.ItemNames = {
 }
 Config.UseableItems = true -- Do you want the items to open up their seperate menus when used? (true) or are you okay with just metadata on the items? (false)
 
+Config.LicenseNames = {
+    medic = "mediku_pazyma",
+    weapon = "weapon"
+}
 Config.Language = {
     buy = 'Buy a fake ID!',
     buydescription = 'Ask the plug for an ID!',

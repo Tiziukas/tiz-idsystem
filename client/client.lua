@@ -183,7 +183,9 @@ AddEventHandler('tizid:openclient', function(data, type , mugshot)
 		action = "open",
 		array  = data,
 		type   = type,
-        mugshot = mugshot
+        mugshot = mugshot,
+		weaponl = Config.LicenseNames.weapon,
+		medicl = Config.LicenseNames.medic
 	})
 end)
 
