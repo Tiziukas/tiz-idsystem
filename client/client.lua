@@ -29,7 +29,7 @@ AddEventHandler('tizid:redeemlicense', function()
 		  {
 			title = 'Redeem your Drivers License',,
 			description = Config.Language.checkdesc,
-			disabled = drivers
+			disabled = drivers,
 			icon = 'vcard',
 			onSelect = function(data, menu)
 				TriggerServerEvent("tizid:redeemlicenses", "drivers")
@@ -38,7 +38,7 @@ AddEventHandler('tizid:redeemlicense', function()
 		  {
 			title = 'Redeem your Weapon license',
 			description = Config.Language.checkdesc,
-			disabled = weapon
+			disabled = weapon,
 			icon = 'vcard',
 			onSelect = function(data, menu)
 				TriggerServerEvent("tizid:redeemlicenses", "weapon")
@@ -47,7 +47,7 @@ AddEventHandler('tizid:redeemlicense', function()
 		  {
 			title = 'Redeem your health license.',
 			description = Config.Language.checkdesc,
-			disabled = medic
+			disabled = medic,
 			icon = 'vcard',
 			onSelect = function(data, menu)
 				TriggerServerEvent("tizid:redeemlicenses", "medic")

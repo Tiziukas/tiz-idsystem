@@ -20,7 +20,7 @@ Config.Command = "licenses" -- Command to open the menu.
 
 -- Item names for all IDS
 Config.ItemNames = {
-    fakeid = 'fakeid',
+    fakeid = 'fakeid', --License item name or false to disable it.
     id = "id",
     drivers = "drivers",
     weapon = "weapon",
