@@ -44,7 +44,7 @@ AddEventHandler("tizid:giveid", function(playerID, input)
     if Config.Item then
         local metadata = {
             type = 'ID',
-            description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..:' %s  \n '..Config.Language.dobas': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category': %s  \n '..Config.Language.height..': %s',
+            description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
             newnamas1,
             newnamas2,
             dob, 
@@ -96,7 +96,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
         function (user)
             local metadata = {
                 type = 'ID',
-                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..:' %s  \n '..Config.Language.dobas': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
+                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
                 user[1],
                 user[2],
                 user[3], 
@@ -114,7 +114,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
             })
             local metadata = {
                 type = 'ID',
-                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..:' %s  \n '..Config.Language.dobas': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category': %s  \n '..Config.Language.height..': %s',
+                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
                 user[1],
                 user[2],
                 user[3], 
@@ -129,7 +129,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
         function (user)
             local metadata = {
                 type = 'ID',
-                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..:' %s  \n '..Config.Language.dobas': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
+                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
                 user[1],
                 user[2],
                 user[3], 
@@ -143,7 +143,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
         function (user)
             local metadata = {
                 type = 'ID',
-                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..:' %s  \n '..Config.Language.dobas': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
+                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
                 user[1],
                 user[2],
                 user[3], 
@@ -153,7 +153,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
             exports.ox_inventory:AddItem(_source, Config.ItemNames.weapon, 1, metadata)
         end)
     end
-)
+end)
 
 RegisterServerEvent('tizid:openserver')
 AddEventHandler('tizid:openserver', function(ID, targetID, type, mugshotass)
