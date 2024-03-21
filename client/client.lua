@@ -1,12 +1,61 @@
 local menuOpen = false
 local qtarget = exports.qtarget
 local JobStartLocation = lib.points.new(Config.NPCLocation, 50)
+local RedeemLocation = lib.points.new(Config.NPCLicenseLocation, 50)
 AddEventHandler('onClientResourceStart', function (resourceName)
-    if(GetCurrentResourceName() ~= 'tiz-id') then
+    if(GetCurrentResourceName() ~= 'tiz-idsystem') then
         print("Do not change the name of the resource as this may break functionality.")
         return
     else
     end
+end)
+
+AddEventHandler('tizid:redeemlicense', function()
+	local drivers = lib.callback.await("tizid:haslicense", false, 'driver')
+	local weapon = lib.callback.await("tizid:haslicense", false, 'weapon')
+	local medic = lib.callback.await("tizid:haslicense", false, 'medic')
+	lib.registerContext({
+		id = 'redeem',
+		title = Config.Language.idtitle,
+		options = {
+		  {
+			title = 'Redeem your ID',
+			description = Config.Language.checkdesc,
+			icon = 'vcard',
+			onSelect = function(data, menu)
+				TriggerServerEvent("tizid:redeemlicenses", "id")
+			end,
+		  },
+		  {
+			title = 'Redeem your Drivers License',,
+			description = Config.Language.checkdesc,
+			disabled = drivers
+			icon = 'vcard',
+			onSelect = function(data, menu)
+				TriggerServerEvent("tizid:redeemlicenses", "drivers")
+			end,
+		  },
+		  {
+			title = 'Redeem your Weapon license',
+			description = Config.Language.checkdesc,
+			disabled = weapon
+			icon = 'vcard',
+			onSelect = function(data, menu)
+				TriggerServerEvent("tizid:redeemlicenses", "weapon")
+			end,
+		  },
+		  {
+			title = 'Redeem your health license.',
+			description = Config.Language.checkdesc,
+			disabled = medic
+			icon = 'vcard',
+			onSelect = function(data, menu)
+				TriggerServerEvent("tizid:redeemlicenses", "medic")
+			end,
+		  },
+		}
+	})
+	lib.showContext('redeem')
 end)
 
 RegisterNetEvent('tizid:openmenu')
@@ -70,7 +119,7 @@ function DoApplication()
         })
     end
 end
-function JobStartLocation:onEnter()
+function JobStartLocation:onEnter() -- RedeemLocation
     spawnIDNPC()
     qtarget:AddTargetEntity(createIDNPC, {
         options = {
@@ -86,12 +135,35 @@ function JobStartLocation:onEnter()
         }
     })
 end
+function RedeemLocation:onEnter()
+    spawnRedeemNPC()
+    qtarget:AddTargetEntity(createIDNPCL, {
+        options = {
+            {
+                name = "RLicenses",
+                icon = 'fa fa-vcard',
+                label = "Redeem Licenses",
+                action = function()
+                    TriggerEvent('tizid:redeemlicense')
+                end,
+                distance = 10
+            }
+        }
+    })
+end
 function spawnIDNPC()
     lib.RequestModel(Config.NPCModel)
     createIDNPC = CreatePed(0, Config.NPCModel, Config.NPCLocation, Config.NPCLocationheading, false, true)
     FreezeEntityPosition(createIDNPC, true)
     SetBlockingOfNonTemporaryEvents(createIDNPC, true)
     SetEntityInvincible(createIDNPC, true)
+end
+function spawnRedeemNPC()
+    lib.RequestModel(Config.NPCLicenseModel)
+    createIDNPCL = CreatePed(0, Config.NPCLicenseModel, Config.NPCLicenseLocation, Config.NPCLicenseLocationheading, false, true)
+    FreezeEntityPosition(createIDNPCL, true)
+    SetBlockingOfNonTemporaryEvents(createIDNPCL, true)
+    SetEntityInvincible(createIDNPCL, true)
 end
 function toggleMenu()
     if menuOpen then
@@ -131,7 +203,7 @@ if Config.CommandOn then
     RegisterCommand(Config.Command, function()
         if open then
             SendNUIMessage({
-                action = "closea"
+                action = "close"
             })
             open = false
         else
@@ -181,7 +253,7 @@ Citizen.CreateThread(function()
 		title = Config.Language.idtitle,
 		options = {
 		{
-			title = 'Check your ID',
+			title = Config.Language.checkid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
 			onSelect = function(data, menu)
@@ -191,7 +263,7 @@ Citizen.CreateThread(function()
 			end,
 		  },
 		  {
-			title = "Show your ID",
+			title = Config.Language.showid,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -216,7 +288,7 @@ Citizen.CreateThread(function()
 		title = Config.Language.idtitle,
 		options = {
 		{
-			title = "Check your Drivers License",
+			title = Config.Language.checkdrivers,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -224,7 +296,7 @@ Citizen.CreateThread(function()
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'driver', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver', mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -235,7 +307,7 @@ Citizen.CreateThread(function()
 			end,
 		  },
 		  {
-			title = "Show your Drivers License",
+			title = Config.Language.showdrivers,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -260,7 +332,7 @@ Citizen.CreateThread(function()
 		title = Config.Language.idtitle,
 		options = {
 		{
-			title = "Patikrinti savo ginklo licenzija",
+			title = Config.Language.checkweapon,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -268,7 +340,7 @@ Citizen.CreateThread(function()
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'weapon', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'weapon', mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -279,7 +351,7 @@ Citizen.CreateThread(function()
 			end,
 		  },
 		  {
-			title = "Parodyti savo ginklo licenzija",
+			title = Config.Language.showweapon,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -304,7 +376,7 @@ Citizen.CreateThread(function()
 		title = Config.Language.idtitle,
 		options = {
 			{
-			title = "Patikrnti savo mediku pazyma",
+			title = Config.Language.checkmedic,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -312,7 +384,7 @@ Citizen.CreateThread(function()
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'medic', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'medic', mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -323,7 +395,7 @@ Citizen.CreateThread(function()
 			end,
 		  },
 		  {
-			title = "Parodyti savo mediku pazyma",
+			title = Config.Language.showmedic,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -415,7 +487,7 @@ lib.registerContext({
 		  end,
 		},
 		{
-			title = 'Check your ID',
+			title = Config.Language.checkid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
 			onSelect = function(data, menu)
@@ -425,7 +497,7 @@ lib.registerContext({
 			end,
 		  },
 		  {
-			title = "Show your ID",
+			title = Config.Language.showid,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -444,7 +516,26 @@ lib.registerContext({
 			end,
 		  },
 		  {
-			title = "Check your Drivers License",
+			title = Config.Language.checkdrivers,
+			description = Config.Language.showkdesc,
+			icon = 'users',
+			onSelect = function()
+				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+				local mugshotasf = mugshotas.base64
+				local player, distance = ESX.Game.GetClosestPlayer()
+				if distance ~= -1 and distance <= 1.5 then
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver', mugshotasf)
+				else
+					lib.notify({
+						title = Config.Language.titlemenu,
+						description = Config.Language.menudesc,
+						type = 'success'
+					})    
+				end
+			end,
+		  },
+		  {
+			title = Config.Language.showdrivers,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -463,7 +554,7 @@ lib.registerContext({
 			end,
 		  },
 		  {
-			title = "Show your Drivers License",
+			title = Confing.Language.checkweapon,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -471,7 +562,7 @@ lib.registerContext({
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'driver', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'weapon', mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -482,26 +573,7 @@ lib.registerContext({
 			end,
 		  },
 		  {
-			title = "Patikrinti savo ginklo licenzija",
-			description = Config.Language.showkdesc,
-			icon = 'users',
-			onSelect = function()
-				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-				local mugshotasf = mugshotas.base64
-				local player, distance = ESX.Game.GetClosestPlayer()
-				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'weapon', mugshotasf)
-				else
-					lib.notify({
-						title = Config.Language.titlemenu,
-						description = Config.Language.menudesc,
-						type = 'success'
-					})    
-				end
-			end,
-		  },
-		  {
-			title = "Parodyti savo ginklo licenzija",
+			title = Confing.Language.showweapon,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -520,7 +592,7 @@ lib.registerContext({
 			end,
 		  },
 		  {
-			title = "Patikrnti savo mediku pazyma",
+			title = Config.Language.checkmedic,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()
@@ -528,7 +600,7 @@ lib.registerContext({
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'medic', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'medic', mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,
@@ -539,7 +611,7 @@ lib.registerContext({
 			end,
 		  },
 		  {
-			title = "Parodyti savo mediku pazyma",
+			title = Config.Language.showmedic,
 			description = Config.Language.showkdesc,
 			icon = 'users',
 			onSelect = function()

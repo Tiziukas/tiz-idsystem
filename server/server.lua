@@ -1,5 +1,3 @@
-bossPeds = {}
-pedsCreated = false
 AddEventHandler('onResourceStart', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then
       return
@@ -46,7 +44,7 @@ AddEventHandler("tizid:giveid", function(playerID, input)
     if Config.Item then
         local metadata = {
             type = 'ID',
-            description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
+            description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..:' %s  \n '..Config.Language.dobas': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category': %s  \n '..Config.Language.height..': %s',
             newnamas1,
             newnamas2,
             dob, 
@@ -98,7 +96,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
         function (user)
             local metadata = {
                 type = 'ID',
-                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
+                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..:' %s  \n '..Config.Language.dobas': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
                 user[1],
                 user[2],
                 user[3], 
@@ -108,43 +106,54 @@ AddEventHandler('tizid:redeemlicenses', function(type)
             exports.ox_inventory:AddItem(_source, Config.ItemNames.id, 1, metadata)
         end)
     elseif type == 'drivers' then
-        local metadata = {
-            type = 'ID',
-            description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
-            newnamas1,
-            newnamas2,
-            dob, 
-            gender, 
-            category, 
-            height)
-        }
-        exports.ox_inventory:AddItem(_source, Config.ItemNames.drivers, 1, metadata)
+        MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
+        function (user)
+            local type = 'drive'
+            local category = MySQL.prepare.await('SELECT type FROM user_licenses WHERE `id` = ? AND type = ?', {
+                identifier, type
+            })
+            local metadata = {
+                type = 'ID',
+                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..:' %s  \n '..Config.Language.dobas': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category': %s  \n '..Config.Language.height..': %s',
+                user[1],
+                user[2],
+                user[3], 
+                user[4], 
+                category, 
+                user[5])
+            }
+            exports.ox_inventory:AddItem(_source, Config.ItemNames.drivers, 1, metadata)
+        end)
     elseif type == 'medic' then
-        local metadata = {
-            type = 'ID',
-            description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
-            newnamas1,
-            newnamas2,
-            dob, 
-            gender, 
-            category, 
-            height)
-        }
-        exports.ox_inventory:AddItem(_source, Config.ItemNames.medic, 1, metadata)
+        MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
+        function (user)
+            local metadata = {
+                type = 'ID',
+                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..:' %s  \n '..Config.Language.dobas': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
+                user[1],
+                user[2],
+                user[3], 
+                user[4],  
+                user[5])
+            }
+            exports.ox_inventory:AddItem(_source, Config.ItemNames.medic, 1, metadata)
+        end)
     elseif type == 'weapon' then
-        local metadata = {
-            type = 'ID',
-            description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
-            newnamas1,
-            newnamas2,
-            dob, 
-            gender, 
-            category, 
-            height)
-        }
-        exports.ox_inventory:AddItem(_source, Config.ItemNames.weapon, 1, metadata)
+        MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
+        function (user)
+            local metadata = {
+                type = 'ID',
+                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..:' %s  \n '..Config.Language.dobas': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
+                user[1],
+                user[2],
+                user[3], 
+                user[4],  
+                user[5])
+            }
+            exports.ox_inventory:AddItem(_source, Config.ItemNames.weapon, 1, metadata)
+        end)
     end
-end)
+)
 
 RegisterServerEvent('tizid:openserver')
 AddEventHandler('tizid:openserver', function(ID, targetID, type, mugshotass)
@@ -199,6 +208,21 @@ lib.callback.register('tizid:checklicense', function(hasLicense)
         identifier
     })
 	if hasLicense == 'fakeid' then
+        return false
+    else 
+        return true
+    end
+end)
+
+lib.callback.register('tizid:haslicense', function(license)
+    local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
+    local identifier = xPlayer.identifier
+    local type = license
+	local hasLicense = MySQL.prepare.await('SELECT type FROM user_licenses WHERE `id` = ? AND type = ?', {
+        identifier, type
+    })
+	if hasLicense == type then
         return false
     else 
         return true

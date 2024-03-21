@@ -1,19 +1,24 @@
 Config = {}
 
+--Fake ID configuration
 Config.NPCLocation = vec3(-2026.6785, -369.7483, 19.0969) -- Where should the FakeID NPC be?
 Config.NPCLocationheading = 203.1064 -- Which was is the NPC looking?
 Config.NPCModel = 'a_m_m_business_01' -- Model of the NPC that sells the ID.
 Config.Price = 2500 -- How much of the item below should the player have?
 Config.PaymentType = "black_money" -- Input an item.
+Config.Item = true -- Do you want the player to receive the FakeID upon payment?
+Config.DeleteAfterRestart = false -- Wipes FakeID from DB after restart.
 
+--Redeem Licenses NPC
+Config.NPCLicenseLocation = vec3(-2026.6785, -369.7483, 19.0969) -- Where should the FakeID NPC be?
+Config.NPCLicenseLocationheading = 203.1064 -- Which was is the NPC looking?
+Config.NPCLicenseModel = 'a_m_m_business_01' -- Model of the NPC that sells the ID.
 
+--Full list/Command Configuration.
 Config.CommandOn = true  -- Turns the command on or off.
 Config.Command = "licenses" -- Command to open the menu.
 
-
-Config.DeleteAfterRestart = false
-
-Config.Item = true -- Do you want the player to receive the FakeID upon payment?
+-- Item names for all IDS
 Config.ItemNames = {
     fakeid = 'fakeid',
     id = "id",
@@ -21,7 +26,9 @@ Config.ItemNames = {
     weapon = "weapon",
     medic = "medic"
 }
-Config.UseableItems = true -- Do you want the items to open up the menu when used? (true) or are you okay with just metadata on the items? (false)
+Config.UseableItems = true -- Do you want the items to open up their seperate menus when used? (true) or are you okay with just metadata on the items? (false)
+
+
 
 Config.Language = {
     buy = 'Buy a fake ID!',
@@ -54,5 +61,15 @@ Config.Language = {
     showtitle = 'Show your Fake ID',
     showkdesc = 'Shows your ID to the closest person',
     eyepedname = 'Plug',
-    pricemeta = 'Price of an ID $'
+    pricemeta = 'Price of an ID $',
+    nolicense = 'You do not have this license!',
+    checkmedic = "Check your health license",
+    showmedic = "Show your health license",
+    checkweapon = "Check your weapon license",
+    showweapon = "Show your weapon license",
+    checkdrivers = "Check your drivers",
+    showdrivers = "Show your drivers license",
+    checkid = "Check your ID",
+    showid = "Show your ID",
+
 }
