@@ -10,8 +10,8 @@ Config.Item = true -- Do you want the player to receive the FakeID upon payment?
 Config.DeleteAfterRestart = false -- Wipes FakeID from DB after restart.
 
 Config.EnableRedeemNpc = true
-Config.NPCLicenseLocation = vec3(-2026.6785, -369.7483, 19.0969) -- Where should the FakeID NPC be?
-Config.NPCLicenseLocationheading = 203.1064 -- Which was is the NPC looking?
+Config.NPCLicenseLocation = vec3(-700.3138, 299.5370, 83.2174) -- Where should the FakeID NPC be?
+Config.NPCLicenseLocationheading = 163.9565 -- Which was is the NPC looking?
 Config.NPCLicenseModel = 'a_m_m_business_01' -- Model of the NPC that sells the ID.
 
 --Full list/Command Configuration.

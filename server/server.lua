@@ -87,40 +87,55 @@ end)
 
 RegisterServerEvent('tizid:redeemlicenses')
 AddEventHandler('tizid:redeemlicenses', function(type)
-    local id = type
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
     local identifier = xPlayer.identifier
     if type == 'id' then
         MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
-        function (user)
-            local metadata = {
-                type = 'ID',
-                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
-                user[1],
-                user[2],
-                user[3], 
-                user[4],  
-                user[5])
-            }
-            exports.ox_inventory:AddItem(_source, Config.ItemNames.id, 1, metadata)
+        function(user)
+            for i = 1, #user do
+                local row = user[i]
+                if row.sex == 'm' then
+                    sex = 'Male'
+                else
+                    sex = 'Female'
+                end
+                local metadata = {
+                    type = 'ID',
+                    description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
+                    row.firstname,
+                    row.lastname,
+                    row.dateofbirth, 
+                    sex,  
+                    row.height)
+                }
+                exports.ox_inventory:AddItem(src, Config.ItemNames.id, 1, metadata)
+            end
         end)
     elseif type == 'drive' then
         MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
         function (user)
-            local metadata = {
-                type = 'ID',
-                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
-                user[1],
-                user[2],
-                user[3], 
-                user[4], 
-                'B', 
-                user[5])
-            }
-            exports.ox_inventory:AddItem(_source, Config.ItemNames.drivers, 1, metadata)
+            for i = 1, #user do
+                local row = user[i]
+                if row.sex == 'm' then
+                    sex = 'Male'
+                else
+                    sex = 'Female'
+                end
+                local metadata = {
+                    type = 'ID',
+                    description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
+                    row.firstname,
+                    row.lastname,
+                    row.dateofbirth, 
+                    sex,  
+                    'B', 
+                    row.height)
+                }
+                exports.ox_inventory:AddItem(src, Config.ItemNames.drivers, 1, metadata)
+            end
         end)
-    elseif type == Config.LicenseName.medic then
+    elseif type == Config.LicenseNames.medic then
         MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
         function (user)
             local metadata = {
@@ -132,9 +147,9 @@ AddEventHandler('tizid:redeemlicenses', function(type)
                 user[4],  
                 user[5])
             }
-            exports.ox_inventory:AddItem(_source, Config.ItemNames.medic, 1, metadata)
+            exports.ox_inventory:AddItem(src, Config.ItemNames.medic, 1, metadata)
         end)
-    elseif type == Config.LicenseName.weapon then
+    elseif type == Config.LicenseNames.weapon then
         MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
         function (user)
             local metadata = {
@@ -146,7 +161,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
                 user[4],  
                 user[5])
             }
-            exports.ox_inventory:AddItem(_source, Config.ItemNames.weapon, 1, metadata)
+            exports.ox_inventory:AddItem(src, Config.ItemNames.weapon, 1, metadata)
         end)
     end
 end)
@@ -168,12 +183,12 @@ AddEventHandler('tizid:openserver', function(ID, targetID, type, mugshotass)
 							if licenses[i].type == 'drive' or licenses[i].type == 'drive_bike' or licenses[i].type == 'drive_truck' then
 								show = true
 							end
-						elseif type == Config.LicenseName.weapon then
-							if licenses[i].type == Config.LicenseName.weapon then
+						elseif type == Config.LicenseNames.weapon then
+							if licenses[i].type == Config.LicenseNames.weapon then
 								show = true
 							end
-						elseif type == Config.LicenseName.medic then
-							if licenses[i].type == Config.LicenseName.medic then
+						elseif type == Config.LicenseNames.medic then
+							if licenses[i].type == Config.LicenseNames.medic then
 								show = true
 							end
 						end
@@ -243,12 +258,12 @@ Citizen.CreateThread(function()
         end
         if (Config.ItemNames.medic ~= false) then
             ESX.RegisterUsableItem(Config.ItemNames.medic, function(source)
-                TriggerClientEvent('tizid:openitem', source, Config.LicenseName.medic)
+                TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.medic)
             end)
         end
         if (Config.ItemNames.weapon ~= false) then
             ESX.RegisterUsableItem(Config.ItemNames.weapon, function(source)
-                TriggerClientEvent('tizid:openitem', source, Config.LicenseName.weapon)
+                TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.weapon)
             end)
         end
     end
