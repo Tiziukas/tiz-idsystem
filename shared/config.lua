@@ -9,7 +9,7 @@ Config.PaymentType = "black_money" -- Input an item.
 Config.Item = true -- Do you want the player to receive the FakeID upon payment?
 Config.DeleteAfterRestart = false -- Wipes FakeID from DB after restart.
 
---Redeem Licenses NPC
+Config.EnableRedeemNpc = true
 Config.NPCLicenseLocation = vec3(-2026.6785, -369.7483, 19.0969) -- Where should the FakeID NPC be?
 Config.NPCLicenseLocationheading = 203.1064 -- Which was is the NPC looking?
 Config.NPCLicenseModel = 'a_m_m_business_01' -- Model of the NPC that sells the ID.
@@ -27,8 +27,6 @@ Config.ItemNames = {
     medic = "medic"
 }
 Config.UseableItems = true -- Do you want the items to open up their seperate menus when used? (true) or are you okay with just metadata on the items? (false)
-
-
 
 Config.Language = {
     buy = 'Buy a fake ID!',
@@ -71,5 +69,9 @@ Config.Language = {
     showdrivers = "Show your drivers license",
     checkid = "Check your ID",
     showid = "Show your ID",
+    redeemid = "Redeem your ID",
+    redeemdid = "Redeem your Drivers License",
+    redeewdid = "Redeem your Weapon license",
+    redeehdid = "Redeem your health license.",
 
 }

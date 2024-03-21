@@ -11,7 +11,7 @@ AddEventHandler('onClientResourceStart', function (resourceName)
 end)
 
 AddEventHandler('tizid:redeemlicense', function()
-	local drivers = lib.callback.await("tizid:haslicense", false, 'driver')
+	local drivers = lib.callback.await("tizid:haslicense", false, 'drive')
 	local weapon = lib.callback.await("tizid:haslicense", false, 'weapon')
 	local medic = lib.callback.await("tizid:haslicense", false, 'medic')
 	lib.registerContext({
@@ -19,7 +19,7 @@ AddEventHandler('tizid:redeemlicense', function()
 		title = Config.Language.idtitle,
 		options = {
 		  {
-			title = 'Redeem your ID',
+			title = Config.Language.redeemid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
 			onSelect = function(data, menu)
@@ -27,16 +27,16 @@ AddEventHandler('tizid:redeemlicense', function()
 			end,
 		  },
 		  {
-			title = 'Redeem your Drivers License',,
+			title = Config.Language.redeemdid,
 			description = Config.Language.checkdesc,
 			disabled = drivers,
 			icon = 'vcard',
 			onSelect = function(data, menu)
-				TriggerServerEvent("tizid:redeemlicenses", "drivers")
+				TriggerServerEvent("tizid:redeemlicenses", "drive")
 			end,
 		  },
 		  {
-			title = 'Redeem your Weapon license',
+			title = Config.Language.redeewdid,
 			description = Config.Language.checkdesc,
 			disabled = weapon,
 			icon = 'vcard',
@@ -45,7 +45,7 @@ AddEventHandler('tizid:redeemlicense', function()
 			end,
 		  },
 		  {
-			title = 'Redeem your health license.',
+			title = Config.Language.redeehdid,
 			description = Config.Language.checkdesc,
 			disabled = medic,
 			icon = 'vcard',
@@ -61,7 +61,6 @@ end)
 RegisterNetEvent('tizid:openmenu')
 AddEventHandler("tizid:openmenu", function()
     menuOpen = true
-    -- Registers the menu
     lib.registerContext({
         id = 'IDMenu',
         title = Config.Language.menutitle,
@@ -119,7 +118,7 @@ function DoApplication()
         })
     end
 end
-function JobStartLocation:onEnter() -- RedeemLocation
+function JobStartLocation:onEnter()
     spawnIDNPC()
     qtarget:AddTargetEntity(createIDNPC, {
         options = {
@@ -136,20 +135,22 @@ function JobStartLocation:onEnter() -- RedeemLocation
     })
 end
 function RedeemLocation:onEnter()
-    spawnRedeemNPC()
-    qtarget:AddTargetEntity(createIDNPCL, {
-        options = {
-            {
-                name = "RLicenses",
-                icon = 'fa fa-vcard',
-                label = "Redeem Licenses",
-                action = function()
-                    TriggerEvent('tizid:redeemlicense')
-                end,
-                distance = 10
-            }
-        }
-    })
+	if Config.EnableRedeemNpc then
+		spawnRedeemNPC()
+		qtarget:AddTargetEntity(createIDNPCL, {
+			options = {
+				{
+					name = "RLicenses",
+					icon = 'fa fa-vcard',
+					label = "Redeem Licenses",
+					action = function()
+						TriggerEvent('tizid:redeemlicense')
+					end,
+					distance = 10
+				}
+			}
+		})
+	end
 end
 function spawnIDNPC()
     lib.RequestModel(Config.NPCModel)
@@ -284,7 +285,7 @@ Citizen.CreateThread(function()
 		}
 	})
 	lib.registerContext({
-		id = 'drivers',
+		id = 'drive',
 		title = Config.Language.idtitle,
 		options = {
 		{
@@ -422,8 +423,8 @@ AddEventHandler('tizid:openitem', function(type)
     	lib.showContext('Fake')
 	elseif type == "normal" then
 		lib.showContext('normal')
-	elseif type == "drivers" then
-		lib.showContext('drivers')
+	elseif type == "drive" then
+		lib.showContext('drive')
 	elseif type == "weapon" then
 		lib.showContext('weapon')
 	elseif type == "medic" then

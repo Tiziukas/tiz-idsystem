@@ -108,7 +108,6 @@ AddEventHandler('tizid:redeemlicenses', function(type)
     elseif type == 'drivers' then
         MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
         function (user)
-            local type = 'drive'
             local category = MySQL.prepare.await('SELECT type FROM user_licenses WHERE `id` = ? AND type = ?', {
                 identifier, type
             })
@@ -237,7 +236,7 @@ Citizen.CreateThread(function()
         end
         if (Config.ItemNames.drivers ~= false) then
             ESX.RegisterUsableItem(Config.ItemNames.drivers, function(source)
-                TriggerClientEvent('tizid:openitem', source, 'drivers')
+                TriggerClientEvent('tizid:openitem', source, 'drive')
             end)
         end
         if (Config.ItemNames.id ~= false) then
