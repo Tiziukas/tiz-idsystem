@@ -2,14 +2,14 @@ local menuOpen = false
 local qtarget = exports.qtarget
 local JobStartLocation = lib.points.new(Config.NPCLocation, 50)
 local RedeemLocation = lib.points.new(Config.NPCLicenseLocation, 50)
-AddEventHandler('onClientResourceStart', function (resourceName)
+AddEventHandler('onClientResourceStart', function ()
     if(GetCurrentResourceName() ~= 'tiz-idsystem') then
         print("Do not change the name of the resource as this may break functionality.")
         return
     else
     end
 end)
-RegisterNetEvent('tizid:redeemlicense')
+
 AddEventHandler('tizid:redeemlicense', function()
 	lib.registerContext({
 		id = 'redeem',
@@ -19,7 +19,7 @@ AddEventHandler('tizid:redeemlicense', function()
 			title = Config.Language.redeemid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
-			onSelect = function(data, menu)
+			onSelect = function()
 				TriggerServerEvent("tizid:redeemlicenses", "id")
 			end,
 		  },
@@ -27,7 +27,7 @@ AddEventHandler('tizid:redeemlicense', function()
 			title = Config.Language.redeemdid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
-			onSelect = function(data, menu)
+			onSelect = function()
 				local turi = lib.callback.await("tizid:haslicense", false,"drive")
 				if turi then 
 					TriggerServerEvent("tizid:redeemlicenses", "drive")
@@ -38,7 +38,7 @@ AddEventHandler('tizid:redeemlicense', function()
 			title = Config.Language.redeewdid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
-			onSelect = function(data, menu)
+			onSelect = function()
 				local turi = lib.callback.await("tizid:haslicense", false,"weapon")
 				if turi then 
 					TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.weapon)
@@ -49,7 +49,7 @@ AddEventHandler('tizid:redeemlicense', function()
 			title = Config.Language.redeehdid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
-			onSelect = function(data, menu)
+			onSelect = function()
 				local turi = lib.callback.await("tizid:haslicense", false,"medic")
 				if turi then 
 					TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.medic)
@@ -145,7 +145,7 @@ function RedeemLocation:onEnter()
 				{
 					name = "RLicenses",
 					icon = 'fa fa-vcard',
-					label = "Redeem Licenses",
+					label = Config.Language.redeemlicensestarget,
 					action = function()
 						TriggerEvent('tizid:redeemlicense')
 					end,
@@ -235,7 +235,7 @@ Citizen.CreateThread(function()
 			title = Config.Language.checktitle,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
-			onSelect = function(data, menu)
+			onSelect = function()
 			  local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 			  local mugshotasf = mugshotas.base64
 			  TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'fakeid', mugshotasf)
@@ -270,7 +270,7 @@ Citizen.CreateThread(function()
 			title = Config.Language.checkid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
-			onSelect = function(data, menu)
+			onSelect = function()
 			  local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 			  local mugshotasf = mugshotas.base64
 			  TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), nil, mugshotasf)
@@ -343,7 +343,6 @@ Citizen.CreateThread(function()
 			onSelect = function()
 				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 				local mugshotasf = mugshotas.base64
-				local player, distance = ESX.Game.GetClosestPlayer()
 				TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseNames.weapon, mugshotasf)
 			end,
 		  },
@@ -390,7 +389,15 @@ Citizen.CreateThread(function()
 				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
-				TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.medic, mugshotasf)
+				if distance ~= -1 and distance <= 1.5 then
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.medic, mugshotasf)
+				else
+					lib.notify({
+						title = Config.Language.titlemenu,
+						description = Config.Language.menudesc,
+						type = 'success'
+					})    
+				end
 			end,
 		  },
 		}
@@ -441,7 +448,7 @@ lib.registerContext({
 		title = Config.Language.checktitle,
 		description = Config.Language.checkdesc,
 		icon = 'vcard',
-		onSelect = function(data, menu)
+		onSelect = function()
 		  local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 		  local mugshotasf = mugshotas.base64
 		  TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'fakeid', mugshotasf)
@@ -470,7 +477,7 @@ lib.registerContext({
 			title = Config.Language.checkid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
-			onSelect = function(data, menu)
+			onSelect = function()
 			  local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 			  local mugshotasf = mugshotas.base64
 			  TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), nil, mugshotasf)

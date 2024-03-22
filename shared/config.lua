@@ -81,5 +81,6 @@ Config.Language = {
     mediclicenseitemmeta = "Medic License",
     weaponlicenseitemmeta = "Weapon License",
     driverslicenseitemmeta = "Drivers License",
+    redeemlicensestarget = "Redeem Licenses"
 
 }
