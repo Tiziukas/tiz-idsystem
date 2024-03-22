@@ -11,9 +11,6 @@ AddEventHandler('onClientResourceStart', function (resourceName)
 end)
 RegisterNetEvent('tizid:redeemlicense')
 AddEventHandler('tizid:redeemlicense', function()
-	local drivers = lib.callback.await("tizid:haslicense", false, 'drive')
-	local weapon = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.weapon)
-	local medic = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.medic)
 	lib.registerContext({
 		id = 'redeem',
 		title = Config.Language.idtitle,
@@ -31,7 +28,10 @@ AddEventHandler('tizid:redeemlicense', function()
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
 			onSelect = function(data, menu)
-				TriggerServerEvent("tizid:redeemlicenses", "drive")
+				local turi = lib.callback.await("tizid:haslicense", false,"drive")
+				if turi then 
+					TriggerServerEvent("tizid:redeemlicenses", "drive")
+				end
 			end,
 		  },
 		  {
@@ -39,7 +39,10 @@ AddEventHandler('tizid:redeemlicense', function()
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
 			onSelect = function(data, menu)
-				TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.weapon)
+				local turi = lib.callback.await("tizid:haslicense", false,"weapon")
+				if turi then 
+					TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.weapon)
+				end
 			end,
 		  },
 		  {
@@ -47,7 +50,10 @@ AddEventHandler('tizid:redeemlicense', function()
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
 			onSelect = function(data, menu)
-				TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.medic)
+				local turi = lib.callback.await("tizid:haslicense", false,"medic")
+				if turi then 
+					TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.medic)
+				end
 			end,
 		  },
 		}

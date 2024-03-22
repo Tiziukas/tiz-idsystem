@@ -96,9 +96,9 @@ AddEventHandler('tizid:redeemlicenses', function(type)
             for i = 1, #user do
                 local row = user[i]
                 if row.sex == 'm' then
-                    sex = 'Male'
+                    sex = Config.Language.male
                 else
-                    sex = 'Female'
+                    sex = Config.Language.female
                 end
                 local metadata = {
                     type = 'ID',
@@ -118,9 +118,9 @@ AddEventHandler('tizid:redeemlicenses', function(type)
             for i = 1, #user do
                 local row = user[i]
                 if row.sex == 'm' then
-                    sex = 'Male'
+                    sex = Config.Language.male
                 else
-                    sex = 'Female'
+                    sex = Config.Language.female
                 end
                 local metadata = {
                     type = 'ID',
@@ -138,30 +138,46 @@ AddEventHandler('tizid:redeemlicenses', function(type)
     elseif type == Config.LicenseNames.medic then
         MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
         function (user)
-            local metadata = {
-                type = 'ID',
-                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
-                user[1],
-                user[2],
-                user[3], 
-                user[4],  
-                user[5])
-            }
-            exports.ox_inventory:AddItem(src, Config.ItemNames.medic, 1, metadata)
+            for i = 1, #user do
+                local row = user[i]
+                if row.sex == 'm' then
+                    sex = Config.Language.male
+                else
+                    sex = Config.Language.female
+                end
+                local metadata = {
+                    type = 'ID',
+                    description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
+                    row.firstname,
+                    row.lastname,
+                    row.dateofbirth, 
+                    sex,  
+                    row.height)
+                }
+                exports.ox_inventory:AddItem(src, Config.ItemNames.medic, 1, metadata)
+            end
         end)
     elseif type == Config.LicenseNames.weapon then
         MySQL.Async.fetchAll('SELECT firstname, lastname, dateofbirth, sex, height FROM users WHERE identifier = @identifier', {['@identifier'] = identifier},
         function (user)
-            local metadata = {
-                type = 'ID',
-                description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
-                user[1],
-                user[2],
-                user[3], 
-                user[4],  
-                user[5])
-            }
-            exports.ox_inventory:AddItem(src, Config.ItemNames.weapon, 1, metadata)
+            for i = 1, #user do
+                local row = user[i]
+                if row.sex == 'm' then
+                    sex = Config.Language.male
+                else
+                    sex = Config.Language.female
+                end
+                local metadata = {
+                    type = 'ID',
+                    description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
+                    row.firstname,
+                    row.lastname,
+                    row.dateofbirth, 
+                    sex,  
+                    row.height)
+                }
+                exports.ox_inventory:AddItem(src, Config.ItemNames.weapon, 1, metadata)
+            end
         end)
     end
 end)
@@ -233,7 +249,7 @@ lib.callback.register('tizid:haslicense', function(license)
 	local hasLicense = MySQL.prepare.await('SELECT type FROM user_licenses WHERE `id` = ? AND type = ?', {
         identifier, type
     })
-	if hasLicense == type then
+	if hasLicense ~= nil then
         return false
     else 
         return true
