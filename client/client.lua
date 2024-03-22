@@ -39,7 +39,7 @@ AddEventHandler('tizid:redeemlicense', function()
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
 			onSelect = function()
-				local turi = lib.callback.await("tizid:haslicense", false,"weapon")
+				local turi = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.weapon)
 				if turi then 
 					TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.weapon)
 				end
@@ -50,7 +50,7 @@ AddEventHandler('tizid:redeemlicense', function()
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
 			onSelect = function()
-				local turi = lib.callback.await("tizid:haslicense", false,"medic")
+				local turi = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.medic)
 				if turi then 
 					TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.medic)
 				end
