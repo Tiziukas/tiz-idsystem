@@ -11,7 +11,6 @@ end)
 lib.callback.register('tizid:canpay', function(canPay)
     local playerId = source
     local money = exports.ox_inventory:GetItemCount(playerId, Config.PaymentType)
-
     if money >= Config.Price then
         return true
     else
@@ -123,7 +122,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
                     sex = Config.Language.female
                 end
                 local metadata = {
-                    type = 'ID',
+                    type = Config.Language.driverslicenseitemmeta,
                     description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
                     row.firstname,
                     row.lastname,
@@ -146,7 +145,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
                     sex = Config.Language.female
                 end
                 local metadata = {
-                    type = 'ID',
+                    type = Config.Language.mediclicenseitemmeta,
                     description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
                     row.firstname,
                     row.lastname,
@@ -168,7 +167,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
                     sex = Config.Language.female
                 end
                 local metadata = {
-                    type = 'ID',
+                    type = Config.Language.weaponlicenseitemmeta,
                     description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
                     row.firstname,
                     row.lastname,

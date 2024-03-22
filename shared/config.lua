@@ -78,5 +78,8 @@ Config.Language = {
     redeemdid = "Redeem your Drivers License",
     redeewdid = "Redeem your Weapon license",
     redeehdid = "Redeem your health license.",
+    mediclicenseitemmeta = "Medic License",
+    weaponlicenseitemmeta = "Weapon License",
+    driverslicenseitemmeta = "Drivers License",
 
 }
