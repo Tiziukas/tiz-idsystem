@@ -50,6 +50,7 @@ AddEventHandler('tizid:redeemlicense', function()
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
 			onSelect = function()
+				print(Config.LicenseNames.medic)
 				local turi = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.medic)
 				if turi then 
 					TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.medic)
@@ -308,7 +309,7 @@ Citizen.CreateThread(function()
 			onSelect = function()
 				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 				local mugshotasf = mugshotas.base64
-				TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'drive', mugshotasf)
+				TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver', mugshotasf)
 			end,
 		  },
 		  {
@@ -320,7 +321,7 @@ Citizen.CreateThread(function()
 				local mugshotasf = mugshotas.base64
 				local player, distance = ESX.Game.GetClosestPlayer()
 				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'drive', mugshotasf)
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'driver', mugshotasf)
 				else
 					lib.notify({
 						title = Config.Language.titlemenu,

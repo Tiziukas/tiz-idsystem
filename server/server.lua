@@ -245,7 +245,7 @@ lib.callback.register('tizid:haslicense', function(license)
 	local xPlayer = ESX.GetPlayerFromId(_source)
     local identifier = xPlayer.identifier
     local type = license
-	local hasLicense = MySQL.prepare.await('SELECT type FROM user_licenses WHERE `id` = ? AND type = ?', {
+	local hasLicense = MySQL.prepare.await('SELECT `type` FROM `user_licenses` WHERE `id` = ? AND `type` = ?', {
         identifier, type
     })
 	if hasLicense ~= nil then
