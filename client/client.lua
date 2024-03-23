@@ -11,6 +11,9 @@ AddEventHandler('onClientResourceStart', function ()
 end)
 
 AddEventHandler('tizid:redeemlicense', function()
+	local mediccb = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.medic)
+	local weaponcb = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.weapon)
+	local drivecb = lib.callback.await("tizid:haslicense", false , "drive")
 	lib.registerContext({
 		id = 'redeem',
 		title = Config.Language.idtitle,
@@ -27,34 +30,27 @@ AddEventHandler('tizid:redeemlicense', function()
 			title = Config.Language.redeemdid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
+			disabled = drivecb,
 			onSelect = function()
-				local turi = lib.callback.await("tizid:haslicense", false,"drive")
-				if turi then 
-					TriggerServerEvent("tizid:redeemlicenses", "drive")
-				end
+				TriggerServerEvent("tizid:redeemlicenses", "drive")
 			end,
 		  },
 		  {
 			title = Config.Language.redeewdid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
+			disabled = weaponcb,
 			onSelect = function()
-				local turi = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.weapon)
-				if turi then 
-					TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.weapon)
-				end
+				TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.weapon)
 			end,
 		  },
 		  {
 			title = Config.Language.redeehdid,
 			description = Config.Language.checkdesc,
 			icon = 'vcard',
+			disabled = mediccb,
 			onSelect = function()
-				print(Config.LicenseNames.medic)
-				local turi = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.medic)
-				if turi then 
-					TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.medic)
-				end
+				TriggerServerEvent("tizid:redeemlicenses", Config.LicenseNames.medic)
 			end,
 		  },
 		}

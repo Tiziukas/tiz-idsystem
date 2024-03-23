@@ -122,7 +122,6 @@ AddEventHandler('tizid:redeemlicenses', function(type)
                     sex = Config.Language.female
                 end
                 local metadata = {
-                    type = Config.Language.driverslicenseitemmeta,
                     description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.category..': %s  \n '..Config.Language.height..': %s',
                     row.firstname,
                     row.lastname,
@@ -145,7 +144,6 @@ AddEventHandler('tizid:redeemlicenses', function(type)
                     sex = Config.Language.female
                 end
                 local metadata = {
-                    type = Config.Language.mediclicenseitemmeta,
                     description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
                     row.firstname,
                     row.lastname,
@@ -167,7 +165,6 @@ AddEventHandler('tizid:redeemlicenses', function(type)
                     sex = Config.Language.female
                 end
                 local metadata = {
-                    type = Config.Language.weaponlicenseitemmeta,
                     description = string.format(Config.Language.name..' %s  \n'.. Config.Language.lname..': %s  \n '..Config.Language.dobas..': %s  \n '.. Config.Language.gender..': %s  \n '..Config.Language.height..': %s',
                     row.firstname,
                     row.lastname,
@@ -240,15 +237,15 @@ lib.callback.register('tizid:checklicense', function(hasLicense)
     end
 end)
 
-lib.callback.register('tizid:haslicense', function(license)
-    local _source = source
-	local xPlayer = ESX.GetPlayerFromId(_source)
+lib.callback.register('tizid:haslicense', function(source, license)
+	local xPlayer = ESX.GetPlayerFromId(source)
     local identifier = xPlayer.identifier
     local type = license
-	local hasLicense = MySQL.prepare.await('SELECT `type` FROM `user_licenses` WHERE `id` = ? AND `type` = ?', {
+	local hasLicense = MySQL.prepare.await('SELECT `type` FROM `user_licenses` WHERE `owner` = ? AND `type` = ?', {
         identifier, type
     })
-	if hasLicense ~= nil then
+    print(hasLicense)
+	if hasLicense == license then
         return false
     else 
         return true
