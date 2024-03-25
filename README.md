@@ -1,4 +1,4 @@
-# tiz-idsystem - A complete ID system with FakeID included along with MetaData on items.
+# [OX][ESX] tiz-idsystem - A complete ID system with FakeID included along with MetaData on items.
 
 ## Dependencies
 * ox_lib - https://github.com/overextended/ox_lib
