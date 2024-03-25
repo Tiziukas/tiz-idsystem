@@ -34,3 +34,9 @@ files {
 	'html/assets/fonts/justsignature/JustSignature.woff',
 	'html/assets/images/*.png'
 }
+
+dependencies {
+	'loaf_headshot_base64',
+	'ox_lib',
+	'ox_inventory',
+}
