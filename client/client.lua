@@ -602,6 +602,6 @@ end
 
 CreateThread(function()
 	if Config.Blip then
-        SpawnPedAndBlip(Config.NPCLocation)
+        SpawnBlip(Config.NPCLocation)
     end
 end)
