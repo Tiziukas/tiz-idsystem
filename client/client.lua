@@ -9,6 +9,18 @@ AddEventHandler('onClientResourceStart', function ()
     else
     end
 end)
+CreateThread(function()
+	if Config.Framework == "esx" then
+		ESX = exports["es_extended"]:getSharedObject()
+    elseif Config.Framework == "ox" then
+		local file = ('imports/%s.lua'):format(IsDuplicityVersion() and 'server' or 'client')
+		local import = LoadResourceFile('ox_core', file)
+		local chunk = assert(load(import, ('@@ox_core/%s'):format(file)))
+		chunk()
+	else
+        print("Incorrect framework")
+    end
+end)
 
 AddEventHandler('tizid:redeemlicense', function()
 	local mediccb = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.medic)

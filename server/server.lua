@@ -7,7 +7,18 @@ AddEventHandler('onResourceStart', function(resourceName)
         end
     end
 end)
-
+CreateThread(function()
+	if Config.Framework == "esx" then
+		ESX = exports["es_extended"]:getSharedObject()
+    elseif Config.Framework == "ox" then
+		local file = ('imports/%s.lua'):format(IsDuplicityVersion() and 'server' or 'client')
+		local import = LoadResourceFile('ox_core', file)
+		local chunk = assert(load(import, ('@@ox_core/%s'):format(file)))
+		chunk()
+	else
+        print("Incorrect framework")
+    end
+end)
 lib.callback.register('tizid:canpay', function(canPay)
     local playerId = source
     local money = exports.ox_inventory:GetItemCount(playerId, Config.PaymentType)
@@ -471,6 +482,7 @@ lib.callback.register('tizid:haslicense', function(source, license)
         end
     end
 end)
+--[[
 CreateThread(function()
     if Config.UseableItems  then
         if (Config.ItemNames.fakeid ~= false) then
@@ -500,22 +512,23 @@ CreateThread(function()
         end
     end
 end)
+--]]
+CreateThread(function()
+    if Config.UseableItems  then
+        exports(Config.ItemNames.fakeid, function(source)
+            TriggerClientEvent('tizid:openitem', source, 'fakeid')
+        end)
 
--- Ox Inventory exports, better in my opinion
-if Config.UseableItems  then
-    exports(Config.ItemNames.fakeid, function(source)
-        TriggerClientEvent('tizid:openitem', source, 'fakeid')
-    end)
+        exports(Config.ItemNames.drivers, function(source)
+            TriggerClientEvent('tizid:openitem', source, 'drive')
+        end)
 
-    exports(Config.ItemNames.drivers, function(source)
-        TriggerClientEvent('tizid:openitem', source, 'drive')
-    end)
+        exports(Config.ItemNames.medic, function(source)
+            TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.medic)
+        end)
 
-    exports(Config.ItemNames.medic, function(source)
-        TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.medic)
-    end)
-
-    exports(Config.ItemNames.weapon, function(source)
-        TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.weapon)
-    end)
-end
+        exports(Config.ItemNames.weapon, function(source)
+            TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.weapon)
+        end)
+    end
+end)

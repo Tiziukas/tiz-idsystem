@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Framework = 'ox' -- Accepts esx or ox
+Config.Framework = 'esx' -- Accepts esx or ox
 
 --Fake ID configuration
 Config.NPCLocation = vec3(-2026.6785, -369.7483, 19.0969) -- Where should the FakeID NPC be?
