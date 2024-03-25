@@ -2,6 +2,7 @@ local menuOpen = false
 local qtarget = exports.qtarget
 local JobStartLocation = lib.points.new(Config.NPCLocation, 50)
 local RedeemLocation = lib.points.new(Config.NPCLicenseLocation, 50)
+local Framework = 'nil'
 AddEventHandler('onClientResourceStart', function ()
     if(GetCurrentResourceName() ~= 'tiz-idsystem') then
         print("Do not change the name of the resource as this may break functionality.")
@@ -10,15 +11,17 @@ AddEventHandler('onClientResourceStart', function ()
     end
 end)
 CreateThread(function()
-	if Config.Framework == "esx" then
+	if GetResourceState('es_extended') ~= 'started' then
+		Framework = 'esx'
 		ESX = exports["es_extended"]:getSharedObject()
-    elseif Config.Framework == "ox" then
+    elseif GetResourceState('ox_core') ~= 'started' then
+		Framework = 'ox'
 		local file = ('imports/%s.lua'):format(IsDuplicityVersion() and 'server' or 'client')
 		local import = LoadResourceFile('ox_core', file)
 		local chunk = assert(load(import, ('@@ox_core/%s'):format(file)))
 		chunk()
 	else
-        print("Incorrect framework")
+        print("Could not find framework...")
     end
 end)
 
@@ -236,7 +239,7 @@ if Config.CommandOn then
     end, false)
 end
 Citizen.CreateThread(function()
-	if Config.Framework == 'esx' then
+	if Framework == 'esx' then
 		lib.registerContext({
 			id = 'Fake',
 			title = Config.Language.idtitle,
@@ -412,7 +415,7 @@ Citizen.CreateThread(function()
 			},
 			}
 		})
-	elseif Config.Framework == 'ox' then
+	elseif Framework == 'ox' then
 		lib.registerContext({
 			id = 'Fake',
 			title = Config.Language.idtitle,
@@ -646,7 +649,7 @@ AddEventHandler("tizid:openmenu", function()
 
     lib.showContext('IDMenu')
 end)
-if Config.Framework == 'esx' then
+if Framework == 'esx' then
 	lib.registerContext({
 		id = 'Normal',
 		title = Config.Language.idtitle,
@@ -798,7 +801,7 @@ if Config.Framework == 'esx' then
 			},
 		}
 	})
-elseif Config.Framework == 'ox' then
+elseif Framework == 'ox' then
 	lib.registerContext({
 		id = 'Normal',
 		title = Config.Language.idtitle,

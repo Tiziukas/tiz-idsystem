@@ -1,3 +1,4 @@
+local Framework = 'nil'
 AddEventHandler('onResourceStart', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then
       return
@@ -8,15 +9,17 @@ AddEventHandler('onResourceStart', function(resourceName)
     end
 end)
 CreateThread(function()
-	if Config.Framework == "esx" then
+	if GetResourceState('es_extended') ~= 'started' then
+		Framework = 'esx'
 		ESX = exports["es_extended"]:getSharedObject()
-    elseif Config.Framework == "ox" then
+    elseif GetResourceState('ox_core') ~= 'started' then
+		Framework = 'ox'
 		local file = ('imports/%s.lua'):format(IsDuplicityVersion() and 'server' or 'client')
 		local import = LoadResourceFile('ox_core', file)
 		local chunk = assert(load(import, ('@@ox_core/%s'):format(file)))
 		chunk()
 	else
-        print("Incorrect framework")
+        print("Could not find framework...")
     end
 end)
 lib.callback.register('tizid:canpay', function(canPay)
@@ -31,7 +34,7 @@ end)
 RegisterNetEvent('tizid:giveid')
 AddEventHandler("tizid:giveid", function(playerID, input)
     local _source = source
-    if Config.Framework == 'esx' then
+    if Framework == 'esx' then
         local xPlayer = ESX.GetPlayerFromId(_source)
         local newnamas = table.concat(input, ' ',1,2)
         local newnamas1 = table.concat(input, ' ',1,1)
@@ -65,7 +68,7 @@ AddEventHandler("tizid:giveid", function(playerID, input)
             }
             exports.ox_inventory:AddItem(_source, Config.ItemNames.fakeid, 1, metadata)
         end
-    elseif Config.Framework == 'ox' then
+    elseif Framework == 'ox' then
         local xPlayer = Ox.GetPlayer(_source)
         local oldname = xPlayer.firstName.." ".. xPlayer.lastName
         local newnamas = table.concat(input, ' ',1,2)
@@ -110,7 +113,7 @@ end)
 
 RegisterServerEvent('tizid:openserveris')
 AddEventHandler('tizid:openserveris', function(ID, targetID, type, mugshotass)
-    if Config.Framework == 'esx' then
+    if Framework == 'esx' then
         local identifier = ESX.GetPlayerFromId(ID).identifier
         local _source 	 = ESX.GetPlayerFromId(targetID).source
         local mugshots = mugshotass
@@ -131,7 +134,7 @@ AddEventHandler('tizid:openserveris', function(ID, targetID, type, mugshotass)
                 end
             end
         end)
-    elseif Config.Framework == 'ox' then
+    elseif Framework == 'ox' then
         local identifier = Ox.GetPlayer(source).stateId
         local _source = Ox.GetPlayer(source).source
         local mugshots = mugshotass
@@ -158,7 +161,7 @@ end)
 RegisterServerEvent('tizid:redeemlicenses')
 AddEventHandler('tizid:redeemlicenses', function(type)
     local src = source
-    if Config.Framework == 'esx' then
+    if Framework == 'esx' then
         local xPlayer = ESX.GetPlayerFromId(src)
         local identifier = xPlayer.identifier
         if type == 'id' then
@@ -248,7 +251,7 @@ AddEventHandler('tizid:redeemlicenses', function(type)
                 end
             end)
         end
-    elseif Config.Framework == 'ox' then
+    elseif Framework == 'ox' then
         local xPlayer = Ox.GetPlayer(src)
         local identifier = xPlayer.stateId
         if type == 'id' then
@@ -339,7 +342,7 @@ end)
 
 RegisterServerEvent('tizid:openserver')
 AddEventHandler('tizid:openserver', function(ID, targetID, type, mugshotass)
-    if Config.Framework == 'esx' then
+    if Framework == 'esx' then
         local identifier = ESX.GetPlayerFromId(ID).identifier
         local _source 	 = ESX.GetPlayerFromId(targetID).source
         local show       = false
@@ -381,7 +384,7 @@ AddEventHandler('tizid:openserver', function(ID, targetID, type, mugshotass)
                 end)
             end
         end)
-    elseif Config.Framework == 'ox' then
+    elseif Framework == 'ox' then
         local identifier = Ox.GetPlayer(ID).charId
         local _source = Ox.GetPlayer(targetID).source
         local show = false
@@ -428,7 +431,7 @@ end)
 
 lib.callback.register('tizid:checklicense', function(hasLicense)
     local _source = source
-    if Config.Framework == 'esx' then
+    if Framework == 'esx' then
         local xPlayer = ESX.GetPlayerFromId(_source)
         local identifier = xPlayer.identifier 
         local hasLicense = MySQL.prepare.await('SELECT `type` FROM `fakeid` WHERE `id` = ?', {
@@ -439,7 +442,7 @@ lib.callback.register('tizid:checklicense', function(hasLicense)
         else
             return true
         end
-    elseif Config.Framework == 'ox' then
+    elseif Framework == 'ox' then
         local xPlayer = Ox.GetPlayer(_source)
         local identifier = xPlayer.stateId
         local hasLicense = MySQL.prepare.await('SELECT `type` FROM `fakeid` WHERE `id` = ?', {
@@ -454,7 +457,7 @@ lib.callback.register('tizid:checklicense', function(hasLicense)
 end)
 
 lib.callback.register('tizid:haslicense', function(source, license)
-    if Config.Framework == 'esx' then
+    if Framework == 'esx' then
         local xPlayer = ESX.GetPlayerFromId(source)
         local identifier = xPlayer.identifier
         local type = license
@@ -467,7 +470,7 @@ lib.callback.register('tizid:haslicense', function(source, license)
         else
             return true
         end
-    elseif Config.Framework == 'ox' then
+    elseif Framework == 'ox' then
         local xPlayer = Ox.GetPlayer(source)
         local identifier = xPlayer.charId
         local type = license
