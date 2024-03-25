@@ -588,3 +588,20 @@ lib.registerContext({
 		  },
 	}
   })
+function SpawnBlip(location)
+    local blip = AddBlipForCoord(location.x, location.y, location.z)
+    SetBlipAsShortRange(blip, true)
+    SetBlipSprite(blip, 606)
+    SetBlipColour(blip, 3)
+    SetBlipScale(blip, 0.7)
+    BeginTextCommandSetBlipName('STRING')
+    AddTextComponentSubstringPlayerName('<font face="Roboto">Redeem NPC</font>')
+    EndTextCommandSetBlipName(blip)
+end
+
+
+CreateThread(function()
+	if Config.Blip then
+        SpawnPedAndBlip(Config.NPCLocation)
+    end
+end)
