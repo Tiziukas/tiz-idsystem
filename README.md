@@ -1,2 +1,11 @@
-# tiz-idsystem
- A complete ID System with Fake ID's and Normal IDS included.
+# tiz-idsystem - A complete ID system with FakeID included along with MetaData on items.
+
+## Dependencies
+* ox_lib - https://github.com/overextended/ox_lib
+* ox_inventory - https://github.com/overextended/ox_inventory
+* loaf_headshot_base64 - https://github.com/loaf-scripts/loaf_headshot_base64
+* es_extended - https://github.com/esx-framework
+## Inspiration
+* License UI psd - https://github.com/jonassvensson4/jsfour-idcard
+##  Preview
+Added soon
