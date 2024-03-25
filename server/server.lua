@@ -9,10 +9,10 @@ AddEventHandler('onResourceStart', function(resourceName)
     end
 end)
 CreateThread(function()
-	if GetResourceState('es_extended') ~= 'started' then
+	if GetResourceState('es_extended') == 'started' then
 		Framework = 'esx'
 		ESX = exports["es_extended"]:getSharedObject()
-    elseif GetResourceState('ox_core') ~= 'started' then
+    elseif GetResourceState('ox_core') == 'started' then
 		Framework = 'ox'
 		local file = ('imports/%s.lua'):format(IsDuplicityVersion() and 'server' or 'client')
 		local import = LoadResourceFile('ox_core', file)
