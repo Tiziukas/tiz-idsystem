@@ -595,7 +595,7 @@ function SpawnBlip(location)
     SetBlipColour(blip, 3)
     SetBlipScale(blip, 0.7)
     BeginTextCommandSetBlipName('STRING')
-    AddTextComponentSubstringPlayerName('<font face="Roboto">Redeem NPC</font>')
+    AddTextComponentSubstringPlayerName(Config.Language.redeemnpcblip)
     EndTextCommandSetBlipName(blip)
 end
 
