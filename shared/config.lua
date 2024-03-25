@@ -1,5 +1,6 @@
 Config = {}
 
+Config.Debug = true
 --Fake ID configuration
 Config.NPCLocation = vec3(-2026.6785, -369.7483, 19.0969) -- Where should the FakeID NPC be?
 Config.NPCLocationheading = 203.1064 -- Which was is the NPC looking?

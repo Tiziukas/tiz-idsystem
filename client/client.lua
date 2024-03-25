@@ -14,6 +14,7 @@ CreateThread(function()
 	if GetResourceState('es_extended') == 'started' then
 		Framework = 'esx'
 		ESX = exports["es_extended"]:getSharedObject()
+		if Config.Debug == true then print("Found ESX") end
     elseif GetResourceState('ox_core') == 'started' then
 		Framework = 'ox'
 		local file = ('imports/%s.lua'):format(IsDuplicityVersion() and 'server' or 'client')
@@ -437,10 +438,10 @@ Citizen.CreateThread(function()
 				onSelect = function()
 					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 					local mugshotasf = mugshotas.base64
-					local ped = GetPlayerPed(i)
+					local ped = PlayerPedId()
 					local player = GetNearestPlayerToEntity(ped)
-            		local pedCoords = GetEntityCoords(ped)
-					local localCoords = GetEntityCoords(PlayerPedId())
+            		local pedCoords = GetEntityCoords(player)
+					local localCoords = GetEntityCoords(ped)
 					local distance = #(pedCoords - localCoords)
 					if distance ~= -1 and distance <= 1.5 then
 						TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'fakeid', mugshotasf)
@@ -476,10 +477,10 @@ Citizen.CreateThread(function()
 				onSelect = function()
 					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 					local mugshotasf = mugshotas.base64
-					local ped = GetPlayerPed(i)
+					local ped = PlayerPedId()
 					local player = GetNearestPlayerToEntity(ped)
-            		local pedCoords = GetEntityCoords(ped)
-					local localCoords = GetEntityCoords(PlayerPedId())
+            		local pedCoords = GetEntityCoords(player)
+					local localCoords = GetEntityCoords(ped)
 					local distance = #(pedCoords - localCoords)
 					if distance ~= -1 and distance <= 1.5 then
 						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), nil, mugshotasf)
@@ -515,10 +516,10 @@ Citizen.CreateThread(function()
 				onSelect = function()
 					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 					local mugshotasf = mugshotas.base64
-					local ped = GetPlayerPed(i)
+					local ped = PlayerPedId()
 					local player = GetNearestPlayerToEntity(ped)
-            		local pedCoords = GetEntityCoords(ped)
-					local localCoords = GetEntityCoords(PlayerPedId())
+            		local pedCoords = GetEntityCoords(player)
+					local localCoords = GetEntityCoords(ped)
 					local distance = #(pedCoords - localCoords)
 					if distance ~= -1 and distance <= 1.5 then
 						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'driver', mugshotasf)
@@ -554,10 +555,10 @@ Citizen.CreateThread(function()
 				onSelect = function()
 					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 					local mugshotasf = mugshotas.base64
-					local ped = GetPlayerPed(i)
+					local ped = PlayerPedId()
 					local player = GetNearestPlayerToEntity(ped)
-            		local pedCoords = GetEntityCoords(ped)
-					local localCoords = GetEntityCoords(PlayerPedId())
+            		local pedCoords = GetEntityCoords(player)
+					local localCoords = GetEntityCoords(ped)
 					local distance = #(pedCoords - localCoords)
 					if distance ~= -1 and distance <= 1.5 then
 						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.weapon, mugshotasf)
@@ -593,10 +594,10 @@ Citizen.CreateThread(function()
 				onSelect = function()
 					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 					local mugshotasf = mugshotas.base64
-					local ped = GetPlayerPed(i)
+					local ped = PlayerPedId()
 					local player = GetNearestPlayerToEntity(ped)
-            		local pedCoords = GetEntityCoords(ped)
-					local localCoords = GetEntityCoords(PlayerPedId())
+            		local pedCoords = GetEntityCoords(player)
+					local localCoords = GetEntityCoords(ped)
 					local distance = #(pedCoords - localCoords)
 					if distance ~= -1 and distance <= 1.5 then
 						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.medic, mugshotasf)
@@ -823,7 +824,7 @@ elseif Framework == 'ox' then
 			onSelect = function()
 				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 				local mugshotasf = mugshotas.base64
-				local ped = GetPlayerPed(i)
+				local ped = PlayerPedId()
 				local player = GetNearestPlayerToEntity(ped)
 				local pedCoords = GetEntityCoords(ped)
 				local localCoords = GetEntityCoords(PlayerPedId())
@@ -856,7 +857,7 @@ elseif Framework == 'ox' then
 				onSelect = function()
 					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 					local mugshotasf = mugshotas.base64
-					local ped = GetPlayerPed(i)
+					local ped = PlayerPedId()
 					local player = GetNearestPlayerToEntity(ped)
 					local pedCoords = GetEntityCoords(ped)
 					local localCoords = GetEntityCoords(PlayerPedId())
@@ -889,7 +890,7 @@ elseif Framework == 'ox' then
 				onSelect = function()
 					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 					local mugshotasf = mugshotas.base64
-					local ped = GetPlayerPed(i)
+					local ped = PlayerPedId()
 					local player = GetNearestPlayerToEntity(ped)
 					local pedCoords = GetEntityCoords(ped)
 					local localCoords = GetEntityCoords(PlayerPedId())
@@ -922,7 +923,7 @@ elseif Framework == 'ox' then
 				onSelect = function()
 					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 					local mugshotasf = mugshotas.base64
-					local ped = GetPlayerPed(i)
+					local ped = PlayerPedId()
 					local player = GetNearestPlayerToEntity(ped)
 					local pedCoords = GetEntityCoords(ped)
 					local localCoords = GetEntityCoords(PlayerPedId())
@@ -955,7 +956,7 @@ elseif Framework == 'ox' then
 				onSelect = function()
 					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
 					local mugshotasf = mugshotas.base64
-					local ped = GetPlayerPed(i)
+					local ped = PlayerPedId()
 					local player = GetNearestPlayerToEntity(ped)
 					local pedCoords = GetEntityCoords(ped)
 					local localCoords = GetEntityCoords(PlayerPedId())
