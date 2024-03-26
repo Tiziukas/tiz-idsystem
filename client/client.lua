@@ -988,6 +988,6 @@ end
 
 CreateThread(function()
 	if Config.Blip then
-        SpawnBlip(Config.NPCLocation)
+        SpawnBlip(Config.NPCLicenseLocation)
     end
 end)
