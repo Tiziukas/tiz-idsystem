@@ -482,7 +482,6 @@ lib.callback.register('tizid:haslicense', function(source, license)
         end
     end
 end)
---[[
 CreateThread(function()
     if Config.UseableItems  then
         if (Config.ItemNames.fakeid ~= false) then
@@ -510,25 +509,5 @@ CreateThread(function()
                 TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.weapon)
             end)
         end
-    end
-end)
---]]
-CreateThread(function()
-    if Config.UseableItems  then
-        exports(Config.ItemNames.fakeid, function(source)
-            TriggerClientEvent('tizid:openitem', source, 'fakeid')
-        end)
-
-        exports(Config.ItemNames.drivers, function(source)
-            TriggerClientEvent('tizid:openitem', source, 'drive')
-        end)
-
-        exports(Config.ItemNames.medic, function(source)
-            TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.medic)
-        end)
-
-        exports(Config.ItemNames.weapon, function(source)
-            TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.weapon)
-        end)
     end
 end)
