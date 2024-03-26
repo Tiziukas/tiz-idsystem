@@ -2,7 +2,7 @@ local menuOpen = false
 local qtarget = exports.qtarget
 local JobStartLocation = lib.points.new(Config.NPCLocation, 50)
 local RedeemLocation = lib.points.new(Config.NPCLicenseLocation, 50)
-local Framework = 'nil'
+local Frameworkas = nil
 AddEventHandler('onClientResourceStart', function ()
     if(GetCurrentResourceName() ~= 'tiz-idsystem') then
         print("Do not change the name of the resource as this may break functionality.")
@@ -10,21 +10,19 @@ AddEventHandler('onClientResourceStart', function ()
     else
     end
 end)
-CreateThread(function()
-	if GetResourceState('es_extended') == 'started' then
-		Framework = 'esx'
-		ESX = exports["es_extended"]:getSharedObject()
-		if Config.Debug == true then print("Found ESX") end
-    elseif GetResourceState('ox_core') == 'started' then
-		Framework = 'ox'
-		local file = ('imports/%s.lua'):format(IsDuplicityVersion() and 'server' or 'client')
-		local import = LoadResourceFile('ox_core', file)
-		local chunk = assert(load(import, ('@@ox_core/%s'):format(file)))
-		chunk()
-	else
-        print("Could not find framework, tell the server owner.")
-    end
-end)
+if GetResourceState('es_extended') == 'started' then
+	Frameworkas = 'esx'
+	ESX = exports["es_extended"]:getSharedObject()
+	if Config.Debug == true then print("Found ESX") end
+elseif GetResourceState('ox_core') == 'started' then
+	Frameworkas = 'ox'
+	local file = ('imports/%s.lua'):format(IsDuplicityVersion() and 'server' or 'client')
+	local import = LoadResourceFile('ox_core', file)
+	local chunk = assert(load(import, ('@@ox_core/%s'):format(file)))
+	chunk()
+else
+    print("Could not find framework, tell the server owner.")
+end
 
 AddEventHandler('tizid:redeemlicense', function()
 	local mediccb = lib.callback.await("tizid:haslicense", false, Config.LicenseNames.medic)
@@ -225,7 +223,333 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-
+Citizen.CreateThread(function()
+	if Frameworkas == 'esx' then
+		lib.registerContext({
+			id = 'FULLMENU',
+			title = Config.Language.idtitle,
+			options = {
+			{
+				title = Config.Language.checktitle,
+				description = Config.Language.checkdesc,
+				icon = 'vcard',
+				onSelect = function()
+				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+				local mugshotasf = mugshotas.base64
+				TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'fakeid', mugshotasf)
+				end,
+			},
+			{
+				title = Config.Language.showtitle,
+				description = Config.Language.showkdesc,
+				icon = 'users',
+				onSelect = function()
+					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+					local mugshotasf = mugshotas.base64
+					local player, distance = ESX.Game.GetClosestPlayer()
+					if distance ~= -1 and distance <= 1.5 then
+						TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'fakeid', mugshotasf)
+					else
+						lib.notify({
+							title = Config.Language.titlemenu,
+							description = Config.Language.menudesc,
+							type = 'success'
+						})    
+					end
+				end,
+				},
+				{
+					title = Config.Language.checkid,
+					description = Config.Language.checkdesc,
+					icon = 'vcard',
+					onSelect = function()
+					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+					local mugshotasf = mugshotas.base64
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), nil, mugshotasf)
+					end,
+				},
+				{
+					title = Config.Language.showid,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						local player, distance = ESX.Game.GetClosestPlayer()
+						if distance ~= -1 and distance <= 1.5 then
+							TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), nil, mugshotasf)
+						else
+							lib.notify({
+								title = Config.Language.titlemenu,
+								description = Config.Language.menudesc,
+								type = 'success'
+							})    
+						end
+					end,
+				},
+				{
+					title = Config.Language.checkdrivers,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver', mugshotasf)
+					end,
+				},
+				{
+					title = Config.Language.showdrivers,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						local player, distance = ESX.Game.GetClosestPlayer()
+						if distance ~= -1 and distance <= 1.5 then
+							TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'driver', mugshotasf)
+						else
+							lib.notify({
+								title = Config.Language.titlemenu,
+								description = Config.Language.menudesc,
+								type = 'success'
+							})    
+						end
+					end,
+				},
+				{
+					title = Config.Language.checkweapon,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseNames.weapon, mugshotasf)
+					end,
+				},
+				{
+					title = Config.Language.showweapon,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						local player, distance = ESX.Game.GetClosestPlayer()
+						if distance ~= -1 and distance <= 1.5 then
+							TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.weapon, mugshotasf)
+						else
+							lib.notify({
+								title = Config.Language.titlemenu,
+								description = Config.Language.menudesc,
+								type = 'success'
+							})    
+						end
+					end,
+				},
+				{
+					title = Config.Language.checkmedic,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseNames.medic, mugshotasf)
+					end,
+				},
+				{
+					title = Config.Language.showmedic,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						local player, distance = ESX.Game.GetClosestPlayer()
+						if distance ~= -1 and distance <= 1.5 then
+							TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.medic, mugshotasf)
+						else
+							lib.notify({
+								title = Config.Language.titlemenu,
+								description = Config.Language.menudesc,
+								type = 'success'
+							})    
+						end
+					end,
+				},
+			}
+		})
+	elseif Frameworkas == 'ox' then
+		lib.registerContext({
+			id = 'FULLMENU',
+			title = Config.Language.idtitle,
+			options = {
+			{
+				title = Config.Language.checktitle,
+				description = Config.Language.checkdesc,
+				icon = 'vcard',
+				onSelect = function()
+				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+				local mugshotasf = mugshotas.base64
+				TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'fakeid', mugshotasf)
+				end,
+			},
+			{
+				title = Config.Language.showtitle,
+				description = Config.Language.showkdesc,
+				icon = 'users',
+				onSelect = function()
+					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+					local mugshotasf = mugshotas.base64
+					local ped = PlayerPedId()
+					local player = GetNearestPlayerToEntity(ped)
+					local pedCoords = GetEntityCoords(ped)
+					local localCoords = GetEntityCoords(PlayerPedId())
+					local distance = #(pedCoords - localCoords)
+					if distance ~= -1 and distance <= 1.5 then
+						TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'fakeid', mugshotasf)
+					else
+						lib.notify({
+							title = Config.Language.titlemenu,
+							description = Config.Language.menudesc,
+							type = 'success'
+						})    
+					end
+				end,
+				},
+				{
+					title = Config.Language.checkid,
+					description = Config.Language.checkdesc,
+					icon = 'vcard',
+					onSelect = function()
+					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+					local mugshotasf = mugshotas.base64
+					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), nil, mugshotasf)
+					end,
+				},
+				{
+					title = Config.Language.showid,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						local ped = PlayerPedId()
+						local player = GetNearestPlayerToEntity(ped)
+						local pedCoords = GetEntityCoords(ped)
+						local localCoords = GetEntityCoords(PlayerPedId())
+						local distance = #(pedCoords - localCoords)
+						if distance ~= -1 and distance <= 1.5 then
+							TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), nil, mugshotasf)
+						else
+							lib.notify({
+								title = Config.Language.titlemenu,
+								description = Config.Language.menudesc,
+								type = 'success'
+							})    
+						end
+					end,
+				},
+				{
+					title = Config.Language.checkdrivers,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver', mugshotasf)
+					end,
+				},
+				{
+					title = Config.Language.showdrivers,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						local ped = PlayerPedId()
+						local player = GetNearestPlayerToEntity(ped)
+						local pedCoords = GetEntityCoords(ped)
+						local localCoords = GetEntityCoords(PlayerPedId())
+						local distance = #(pedCoords - localCoords)
+						if distance ~= -1 and distance <= 1.5 then
+							TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'driver', mugshotasf)
+						else
+							lib.notify({
+								title = Config.Language.titlemenu,
+								description = Config.Language.menudesc,
+								type = 'success'
+							})    
+						end
+					end,
+				},
+				{
+					title = Config.Language.checkweapon,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseNames.weapon, mugshotasf)
+					end,
+				},
+				{
+					title = Config.Language.showweapon,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						local ped = PlayerPedId()
+						local player = GetNearestPlayerToEntity(ped)
+						local pedCoords = GetEntityCoords(ped)
+						local localCoords = GetEntityCoords(PlayerPedId())
+						local distance = #(pedCoords - localCoords)
+						if distance ~= -1 and distance <= 1.5 then
+							TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.weapon, mugshotasf)
+						else
+							lib.notify({
+								title = Config.Language.titlemenu,
+								description = Config.Language.menudesc,
+								type = 'success'
+							})    
+						end
+					end,
+				},
+				{
+					title = Config.Language.checkmedic,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseNames.medic, mugshotasf)
+					end,
+				},
+				{
+					title = Config.Language.showmedic,
+					description = Config.Language.showkdesc,
+					icon = 'users',
+					onSelect = function()
+						local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
+						local mugshotasf = mugshotas.base64
+						local ped = PlayerPedId()
+						local player = GetNearestPlayerToEntity(ped)
+						local pedCoords = GetEntityCoords(ped)
+						local localCoords = GetEntityCoords(PlayerPedId())
+						local distance = #(pedCoords - localCoords)
+						if distance ~= -1 and distance <= 1.5 then
+							TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.medic, mugshotasf)
+						else
+							lib.notify({
+								title = Config.Language.titlemenu,
+								description = Config.Language.menudesc,
+								type = 'success'
+							})    
+						end
+					end,
+				},
+			}
+		})
+	end
+end)
 if Config.CommandOn then
     RegisterCommand(Config.Command, function()
         if open then
@@ -234,13 +558,13 @@ if Config.CommandOn then
             })
             open = false
         else
-            lib.showContext('Normal')
+            lib.showContext('FULLMENU')
             open = true
         end
     end, false)
 end
 Citizen.CreateThread(function()
-	if Framework == 'esx' then
+	if Frameworkas == 'esx' then
 		lib.registerContext({
 			id = 'Fake',
 			title = Config.Language.idtitle,
@@ -416,7 +740,7 @@ Citizen.CreateThread(function()
 			},
 			}
 		})
-	elseif Framework == 'ox' then
+	elseif Frameworkas == 'ox' then
 		lib.registerContext({
 			id = 'Fake',
 			title = Config.Language.idtitle,
@@ -650,331 +974,7 @@ AddEventHandler("tizid:openmenu", function()
 
     lib.showContext('IDMenu')
 end)
-if Framework == 'esx' then
-	lib.registerContext({
-		id = 'Normal',
-		title = Config.Language.idtitle,
-		options = {
-		{
-			title = Config.Language.checktitle,
-			description = Config.Language.checkdesc,
-			icon = 'vcard',
-			onSelect = function()
-			local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-			local mugshotasf = mugshotas.base64
-			TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'fakeid', mugshotasf)
-			end,
-		},
-		{
-			title = Config.Language.showtitle,
-			description = Config.Language.showkdesc,
-			icon = 'users',
-			onSelect = function()
-				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-				local mugshotasf = mugshotas.base64
-				local player, distance = ESX.Game.GetClosestPlayer()
-				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'fakeid', mugshotasf)
-				else
-					lib.notify({
-						title = Config.Language.titlemenu,
-						description = Config.Language.menudesc,
-						type = 'success'
-					})    
-				end
-			end,
-			},
-			{
-				title = Config.Language.checkid,
-				description = Config.Language.checkdesc,
-				icon = 'vcard',
-				onSelect = function()
-				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-				local mugshotasf = mugshotas.base64
-				TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), nil, mugshotasf)
-				end,
-			},
-			{
-				title = Config.Language.showid,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					local player, distance = ESX.Game.GetClosestPlayer()
-					if distance ~= -1 and distance <= 1.5 then
-						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), nil, mugshotasf)
-					else
-						lib.notify({
-							title = Config.Language.titlemenu,
-							description = Config.Language.menudesc,
-							type = 'success'
-						})    
-					end
-				end,
-			},
-			{
-				title = Config.Language.checkdrivers,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver', mugshotasf)
-				end,
-			},
-			{
-				title = Config.Language.showdrivers,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					local player, distance = ESX.Game.GetClosestPlayer()
-					if distance ~= -1 and distance <= 1.5 then
-						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'driver', mugshotasf)
-					else
-						lib.notify({
-							title = Config.Language.titlemenu,
-							description = Config.Language.menudesc,
-							type = 'success'
-						})    
-					end
-				end,
-			},
-			{
-				title = Config.Language.checkweapon,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseNames.weapon, mugshotasf)
-				end,
-			},
-			{
-				title = Config.Language.showweapon,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					local player, distance = ESX.Game.GetClosestPlayer()
-					if distance ~= -1 and distance <= 1.5 then
-						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.weapon, mugshotasf)
-					else
-						lib.notify({
-							title = Config.Language.titlemenu,
-							description = Config.Language.menudesc,
-							type = 'success'
-						})    
-					end
-				end,
-			},
-			{
-				title = Config.Language.checkmedic,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseNames.medic, mugshotasf)
-				end,
-			},
-			{
-				title = Config.Language.showmedic,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					local player, distance = ESX.Game.GetClosestPlayer()
-					if distance ~= -1 and distance <= 1.5 then
-						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.medic, mugshotasf)
-					else
-						lib.notify({
-							title = Config.Language.titlemenu,
-							description = Config.Language.menudesc,
-							type = 'success'
-						})    
-					end
-				end,
-			},
-		}
-	})
-elseif Framework == 'ox' then
-	lib.registerContext({
-		id = 'Normal',
-		title = Config.Language.idtitle,
-		options = {
-		{
-			title = Config.Language.checktitle,
-			description = Config.Language.checkdesc,
-			icon = 'vcard',
-			onSelect = function()
-			local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-			local mugshotasf = mugshotas.base64
-			TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'fakeid', mugshotasf)
-			end,
-		},
-		{
-			title = Config.Language.showtitle,
-			description = Config.Language.showkdesc,
-			icon = 'users',
-			onSelect = function()
-				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-				local mugshotasf = mugshotas.base64
-				local ped = PlayerPedId()
-				local player = GetNearestPlayerToEntity(ped)
-				local pedCoords = GetEntityCoords(ped)
-				local localCoords = GetEntityCoords(PlayerPedId())
-				local distance = #(pedCoords - localCoords)
-				if distance ~= -1 and distance <= 1.5 then
-					TriggerServerEvent('tizid:openserveris', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'fakeid', mugshotasf)
-				else
-					lib.notify({
-						title = Config.Language.titlemenu,
-						description = Config.Language.menudesc,
-						type = 'success'
-					})    
-				end
-			end,
-			},
-			{
-				title = Config.Language.checkid,
-				description = Config.Language.checkdesc,
-				icon = 'vcard',
-				onSelect = function()
-				local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-				local mugshotasf = mugshotas.base64
-				TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), nil, mugshotasf)
-				end,
-			},
-			{
-				title = Config.Language.showid,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					local ped = PlayerPedId()
-					local player = GetNearestPlayerToEntity(ped)
-					local pedCoords = GetEntityCoords(ped)
-					local localCoords = GetEntityCoords(PlayerPedId())
-					local distance = #(pedCoords - localCoords)
-					if distance ~= -1 and distance <= 1.5 then
-						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), nil, mugshotasf)
-					else
-						lib.notify({
-							title = Config.Language.titlemenu,
-							description = Config.Language.menudesc,
-							type = 'success'
-						})    
-					end
-				end,
-			},
-			{
-				title = Config.Language.checkdrivers,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver', mugshotasf)
-				end,
-			},
-			{
-				title = Config.Language.showdrivers,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					local ped = PlayerPedId()
-					local player = GetNearestPlayerToEntity(ped)
-					local pedCoords = GetEntityCoords(ped)
-					local localCoords = GetEntityCoords(PlayerPedId())
-					local distance = #(pedCoords - localCoords)
-					if distance ~= -1 and distance <= 1.5 then
-						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'driver', mugshotasf)
-					else
-						lib.notify({
-							title = Config.Language.titlemenu,
-							description = Config.Language.menudesc,
-							type = 'success'
-						})    
-					end
-				end,
-			},
-			{
-				title = Config.Language.checkweapon,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseNames.weapon, mugshotasf)
-				end,
-			},
-			{
-				title = Config.Language.showweapon,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					local ped = PlayerPedId()
-					local player = GetNearestPlayerToEntity(ped)
-					local pedCoords = GetEntityCoords(ped)
-					local localCoords = GetEntityCoords(PlayerPedId())
-					local distance = #(pedCoords - localCoords)
-					if distance ~= -1 and distance <= 1.5 then
-						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.weapon, mugshotasf)
-					else
-						lib.notify({
-							title = Config.Language.titlemenu,
-							description = Config.Language.menudesc,
-							type = 'success'
-						})    
-					end
-				end,
-			},
-			{
-				title = Config.Language.checkmedic,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), Config.LicenseNames.medic, mugshotasf)
-				end,
-			},
-			{
-				title = Config.Language.showmedic,
-				description = Config.Language.showkdesc,
-				icon = 'users',
-				onSelect = function()
-					local mugshotas = exports["loaf_headshot_base64"]:getBase64(PlayerPedId())
-					local mugshotasf = mugshotas.base64
-					local ped = PlayerPedId()
-					local player = GetNearestPlayerToEntity(ped)
-					local pedCoords = GetEntityCoords(ped)
-					local localCoords = GetEntityCoords(PlayerPedId())
-					local distance = #(pedCoords - localCoords)
-					if distance ~= -1 and distance <= 1.5 then
-						TriggerServerEvent('tizid:openserver', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), Config.LicenseNames.medic, mugshotasf)
-					else
-						lib.notify({
-							title = Config.Language.titlemenu,
-							description = Config.Language.menudesc,
-							type = 'success'
-						})    
-					end
-				end,
-			},
-		}
-	})
-end
+
 function SpawnBlip(location)
     local blip = AddBlipForCoord(location.x, location.y, location.z)
     SetBlipAsShortRange(blip, true)
