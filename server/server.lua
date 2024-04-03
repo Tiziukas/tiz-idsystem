@@ -723,7 +723,33 @@ CreateThread(function()
             end
         end
     elseif Frameworkas =='ox' then
-
+        if Config.UseableItems  then
+            if (Config.ItemNames.fakeid ~= false) then
+                QBCore.Functions.CreateUseableItem(Config.ItemNames.fakeid, function(source)
+                    TriggerClientEvent('tizid:openitem', source, 'fakeid')
+                end)
+            end
+            if (Config.ItemNames.drivers ~= false) then
+                QBCore.Functions.CreateUseableItem(Config.ItemNames.drivers, function(source)
+                    TriggerClientEvent('tizid:openitem', source, 'drive')
+                end)
+            end
+            if (Config.ItemNames.id ~= false) then
+                QBCore.Functions.CreateUseableItem(Config.ItemNames.id, function(source)
+                    TriggerClientEvent('tizid:openitem', source, 'normal')
+                end)
+            end
+            if (Config.ItemNames.medic ~= false) then
+                QBCore.Functions.CreateUseableItem(Config.ItemNames.medic, function(source)
+                    TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.medic)
+                end)
+            end
+            if (Config.ItemNames.weapon ~= false) then
+                QBCore.Functions.CreateUseableItem(Config.ItemNames.weapon, function(source)
+                    TriggerClientEvent('tizid:openitem', source, Config.LicenseNames.weapon)
+                end)
+            end
+        end
     elseif Frameworkas =='qb' then
         
     end
