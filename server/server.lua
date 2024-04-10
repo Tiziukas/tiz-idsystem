@@ -1,3 +1,17 @@
+--[[
+local src = source
+local Player = QBCore.Functions.GetPlayer(src)
+local hasLicense = Player.PlayerData.metadata.licences
+return hasLicense[type]
+    PlayerData.metadata['licences'] = PlayerData.metadata['licences'] or {
+        ['driver'] = true,
+        ['business'] = false,
+        ['weapon'] = false
+    }
+    print(table.unpack(hasLicense))
+    print(json.encode(hasLicense, {indent = true}))
+["driver_license"]
+]]--
 local Frameworkas = nil
 AddEventHandler('onResourceStart', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then
