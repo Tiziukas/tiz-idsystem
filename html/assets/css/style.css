@@ -18,8 +18,8 @@ p {
   display: none;
   margin: 230px 50px 0 0;
   float: right;
-  width: 457px;
-  height: 272px;
+  width: 432px;
+  height: 245px;
   padding: 54px 17px 10px 144px;
   background: url("../images/idcard.png");
 }
@@ -29,9 +29,10 @@ img {
   top:5px;
 }
 #name {
+  position: absolute;
+  right:  188px;
+  top: 90px;
   font-weight: bolder;
-  font-size: 18px;
-  color: #282828;
 }
 #inline {
   position: absolute;
@@ -39,30 +40,29 @@ img {
 }
 #dob {
   position: absolute;
-  left: 0;
+  left: -8px;
+  top: 25px;
   width: 100px;
+  font-weight: bolder;
 }
 #sex {
   position: absolute;
-  left: 90px;
+  left: 0px;
+  top: 63px;
+  width: 100px;
+  font-weight: bolder;
 }
 #height {
   position: absolute;
-  left: 150px;
-  width: 60px;
+  left: 130px;
+  top: 25px;
+  width: 100px;
+  font-weight: bolder;
 }
-#signature {
-  position: absolute;
-  bottom: 76px;
-  left: 152px;
-  color: #b1b177;
-  font-size: 19px;
-  text-transform:capitalize;
-  font-family: justsignature;
-}
+
 #licenses {
   position: absolute;
-  top: 109px;
-  right: 33px;
-  width: 50px;
+  left: 223px;
+  top: 173px;
+  font-weight: bolder;
 }

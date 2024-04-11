@@ -11,7 +11,6 @@ $(document).ready(function(){
 
       if ( type == 'driver' || type == null) {
         $('img').show();
-        $('#name').css('color', '#282828');
 
         if ( sex.toLowerCase() == 'm' ) {
           $('img').attr('src', mugshot);
@@ -24,7 +23,6 @@ $(document).ready(function(){
         $('#name').text(userData.firstname + ' ' + userData.lastname);
         $('#dob').text(userData.dateofbirth);
         $('#height').text(userData.height);
-        $('#signature').text(userData.firstname + ' ' + userData.lastname);
 
         if ( type == 'driver' ) {
           if ( licenseData != null ) {
@@ -51,24 +49,32 @@ $(document).ready(function(){
         }
       } else if ( type == weaponl ) {
         $('img').hide();
-        $('#name').css('color', '#d9d9d9');
+        if ( sex.toLowerCase() == 'm' ) {
+          $('img').attr('src', mugshot);
+          $('#sex').text('m');
+        } else {
+          $('img').attr('src', mugshot);
+          $('#sex').text('f');
+        }
         $('#name').text(userData.firstname + ' ' + userData.lastname);
         $('#dob').text(userData.dateofbirth);
-        $('#signature').text(userData.firstname + ' ' + userData.lastname);
+        $('#sex').text(userData.gender);
 
         $('#id-card').css('background', 'url(assets/images/firearm.png)');
         
       } else if ( type == medicl ) {
         $('img').hide();
-        $('#name').css('color', '#d9d9d9');
+        if ( sex.toLowerCase() == 'm' ) {
+          $('#sex').text('m');
+        } else {
+          $('#sex').text('f');
+        }
         $('#name').text(userData.firstname + ' ' + userData.lastname);
         $('#dob').text(userData.dateofbirth);
-        $('#signature').text(userData.firstname + ' ' + userData.lastname);
 
         $('#id-card').css('background', 'url(assets/images/medic.png)');
       } else if ( type == 'fakeid' || type == null) {
         $('img').show();
-        $('#name').css('color', '#282828');
 
         $('img').attr('src', mugshot);
         $('#sex').text(userData.gender);
@@ -77,8 +83,6 @@ $(document).ready(function(){
         $('#name').text(userData.newname);
         $('#dob').text(userData.dob);
         $('#height').text(userData.height);
-        $('#signature').text(userData.newname);
-        $('#licenses').append('<p>'+ userData.category +'</p>');
 
         if ( type == 'fakeid' ) {
           if ( licenseData != null ) {
@@ -96,7 +100,6 @@ $(document).ready(function(){
       $('#name').text('');
       $('#dob').text('');
       $('#height').text('');
-      $('#signature').text('');
       $('#sex').text('');
       $('#id-card').hide();
       $('#licenses').html('');
