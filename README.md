@@ -4,7 +4,9 @@
 * ox_lib - https://github.com/overextended/ox_lib
 * ox_inventory - https://github.com/overextended/ox_inventory
 * loaf_headshot_base64 - https://github.com/loaf-scripts/loaf_headshot_base64
-## Inspiration
-* License UI psd - https://github.com/jonassvensson4/jsfour-idcard
+
 ##  Preview
-Added soon
+* Redeem NPC: https://streamable.com/abbgnd
+* Fake ID: https://streamable.com/5p3v7f
+* Full Menu: https://streamable.com/1vimwd
+* Metadata: https://iili.io/JjzCqBI.png
