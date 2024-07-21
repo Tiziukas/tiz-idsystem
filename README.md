@@ -6,7 +6,7 @@
 * loaf_headshot_base64 - https://github.com/loaf-scripts/loaf_headshot_base64
   
 ## Support & Updates
-* [Discord](https://discord.gg/dRxUg2Km)
+* [Discord](https://discord.gg/GPY2agat)
 
 ##  Preview
 * Redeem NPC: https://streamable.com/abbgnd
